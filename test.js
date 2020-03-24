@@ -601,8 +601,40 @@ const insertionCheck = (string1, string2) => {
   return false;
 };
 
-console.log("replacementcheck: ", replacementCheck("abfde", "abffe"));
-console.log("insertioncheck: ", insertionCheck("Zenep", "Zeynep"));
-let string1 = 'bae'
-let string2 = 'pale'
-console.log('both: ',replacementCheck(string1,string2) || insertionCheck(string1,string2) )
+// console.log("replacementcheck: ", replacementCheck("abfde", "abffe"));
+// console.log("insertioncheck: ", insertionCheck("Zenep", "Zeynep"));
+// let string1 = 'bae'
+// let string2 = 'pale'
+// console.log('both: ',replacementCheck(string1,string2) || insertionCheck(string1,string2) )
+
+// Q1.7 Rotate Matrix
+// Not exactly as requested
+const rotate = (matrix) => {
+  let matrixSize=matrix.length
+  let convertedHash = {}
+  for (let i=0;i<matrixSize;i++){
+    for (let j=0;j<matrixSize;j++){
+      let k = [matrixSize-1-i,matrixSize-1-j]
+      convertedHash[k]=matrix[i][j]
+    }
+  }
+  let result={}
+  Object.keys(convertedHash).map(key=>{
+    let currentCoor = key.split(',')
+    let k = [currentCoor[1],currentCoor[0]]
+    result[k]=convertedHash[key]
+  })
+  // col==>i
+  // rowMax-row==>j
+  console.log(Object.keys(convertedHash))
+  console.log(result)
+};
+
+let matrix = [
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9, 10, 11, 12],
+  [13, 14, 15, 16]
+];
+
+rotate(matrix)
