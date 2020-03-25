@@ -609,26 +609,66 @@ const insertionCheck = (string1, string2) => {
 
 // Q1.7 Rotate Matrix
 // Not exactly as requested
-const rotate = (matrix) => {
-  let matrixSize=matrix.length
-  let convertedHash = {}
-  for (let i=0;i<matrixSize;i++){
-    for (let j=0;j<matrixSize;j++){
-      let k = [matrixSize-1-i,matrixSize-1-j]
-      convertedHash[k]=matrix[i][j]
+// const rotate = (matrix) => {
+//   let matrixSize=matrix.length
+//   let convertedHash = {}
+//   for (let i=0;i<matrixSize;i++){
+//     for (let j=0;j<matrixSize;j++){
+//       let k = [matrixSize-1-i,matrixSize-1-j]
+//       convertedHash[k]=matrix[i][j]
+//     }
+//   }
+//   let result={}
+//   Object.keys(convertedHash).map(key=>{
+//     let currentCoor = key.split(',')
+//     let k = [currentCoor[1],currentCoor[0]]
+//     result[k]=convertedHash[key]
+//   })
+//   // console.log(matrixResult)
+// };
+
+// let matrix = [
+//   [1, 2, 3, 4],
+//   [5, 6, 7, 8],
+//   [9, 10, 11, 12],
+//   [13, 14, 15, 16]
+// ];
+
+// rotate(matrix)
+// @param {array}   matrix  NxN to rotate in place
+// @return {array}          Rotated matrix, same object as input
+
+const rotateMatrix = (matrix) => {
+  if (!matrix || matrix.length === 0 || matrix.length!==matrix[0].length){
+    throw new Error('invalid matrix')
+  }
+  if (matrix.length<2) {
+    return matrix
+  }
+
+  let len = matrix.length-1
+  let half = Math.floor(matrix.length/2)
+  //loop thru diagonal
+  for(let start = 0;start<half;start++){
+    //loop thru x axis
+    for (let i=0;i<len-(start*2);i++){
+      let y=start
+      let x=start+i
+      let prev=matrix[y][x]
+      //loop through 4 corners
+      for (let j=0;j<4;j++){
+        let nextY = x,
+          nextX = len - y,
+          next = matrix[nextY][nextX];
+        matrix[nextY][nextX] = prev;
+        prev = next;
+        x = nextX;
+        y = nextY;
+      }
     }
   }
-  let result={}
-  Object.keys(convertedHash).map(key=>{
-    let currentCoor = key.split(',')
-    let k = [currentCoor[1],currentCoor[0]]
-    result[k]=convertedHash[key]
-  })
-  // col==>i
-  // rowMax-row==>j
-  console.log(Object.keys(convertedHash))
-  console.log(result)
-};
+  return matrix
+}
 
 let matrix = [
   [1, 2, 3, 4],
@@ -637,4 +677,18 @@ let matrix = [
   [13, 14, 15, 16]
 ];
 
-rotate(matrix)
+const printMatrix = (matrix) => {
+  let convertedMatrix = []
+  for (let i=0;i<matrix.length;i++){
+    let newCol = []
+    for (let j=0;j<matrix[i].length;j++){
+      newCol.push(matrix[j][i])
+      // console.log('element ',i,j,': ',matrix[i][j])
+    }
+    convertedMatrix.push(newCol)
+  }
+  return convertedMatrix
+}
+
+// console.log(rotateMatrix(matrix))
+console.log(printMatrix(matrix))
